@@ -20,6 +20,7 @@
       font-family: 'Open Sans', sans-serif;
       background-color: #f8f9fa;
       color: #333;
+      line-height: 1.4;
     }
     
     .custom_navbar {
@@ -44,6 +45,7 @@
       padding: 12px 15px;
       font-weight: 600;
       border-radius: 5px 5px 0 0;
+      font-size: 1.1rem;
     }
     
     .status-delivery-box {
@@ -65,6 +67,7 @@
       border-bottom: 1px solid #eee;
       display: flex;
       justify-content: space-between;
+      font-size: 0.9rem;
     }
     
     .track_details li span {
@@ -120,6 +123,7 @@
       display: block;
       position: relative;
       z-index: 2;
+      font-size: 1.2rem;
     }
     
     .track .step.active .icon,
@@ -135,6 +139,7 @@
     .track .step .text {
       margin-top: 10px;
       font-weight: 500;
+      font-size: 0.85rem;
     }
     
     .shipment_progress {
@@ -177,6 +182,7 @@
     
     .progress_content p {
       margin-bottom: 5px;
+      font-size: 0.9rem;
     }
     
     .progress_content p:first-child {
@@ -219,11 +225,13 @@
     .customer-details h5 {
       color: #2c3e50;
       margin-bottom: 15px;
+      font-size: 1.1rem;
     }
     
     .customer-details .detail-item {
       display: flex;
       margin-bottom: 8px;
+      font-size: 0.9rem;
     }
     
     .customer-details .detail-label {
@@ -269,7 +277,151 @@
       border-color: #f39c12;
     }
     
-    /* Responsive styles */
+    /* Mobile-first responsive styles */
+    @media(max-width: 575px) {
+      .container {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      
+      .custom_navbar .navbar-brand {
+        width: 160px;
+      }
+      
+      .custom_navbar .navbar-brand img {
+        height: 50px;
+      }
+      
+      .status-delivery-heading {
+        font-size: 1rem;
+        padding: 10px 12px;
+      }
+      
+      .status-delivery-box {
+        padding: 15px;
+      }
+      
+      .ready_to_go {
+        font-size: 1.1rem;
+      }
+      
+      .track_details li {
+        font-size: 0.85rem;
+        padding: 6px 0;
+      }
+      
+      .track {
+        flex-direction: column;
+        margin-bottom: 15px;
+      }
+      
+      .track .step {
+        width: 100%;
+        text-align: left;
+        padding-top: 0;
+        padding-left: 70px;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        min-height: 50px;
+      }
+      
+      .track .step .icon {
+        position: absolute;
+        left: 0;
+        margin-right: 10px;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+      }
+      
+      .track .step .text {
+        margin-top: 0;
+        font-size: 0.9rem;
+      }
+      
+      .track .step:before {
+        left: 22px !important;
+        width: 4px;
+        height: 100%;
+        top: 45px;
+        transform: none;
+      }
+      
+      .track .step:first-child:before {
+        top: 45px;
+        height: calc(100% - 45px);
+      }
+      
+      .track .step:last-child:before {
+        height: 0;
+      }
+      
+      .shipment_progress {
+        margin-top: 10px;
+      }
+      
+      .shipment_progress h4 {
+        font-size: 1.2rem;
+      }
+      
+      .step-progress-item {
+        padding: 12px 0;
+        padding-left: 20px;
+        margin-left: 10px;
+      }
+      
+      .progress_content p {
+        font-size: 0.85rem;
+      }
+      
+      .product-image-container {
+        padding: 10px;
+      }
+      
+      .product-image-container img {
+        max-height: 150px;
+      }
+      
+      .customer-details h5 {
+        font-size: 1rem;
+      }
+      
+      .customer-details .detail-item {
+        flex-direction: column;
+        margin-bottom: 10px;
+      }
+      
+      .customer-details .detail-label {
+        min-width: auto;
+        margin-bottom: 3px;
+      }
+      
+      .footer_box {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px 0;
+      }
+      
+      .footer_box .footer_left {
+        margin-bottom: 10px;
+      }
+      
+      .footer_box .footer_logo {
+        justify-content: center;
+      }
+    }
+    
+    @media(max-width: 767px) and (min-width: 576px) {
+      .track .step .text {
+        font-size: 0.8rem;
+      }
+      
+      .track_details li {
+        font-size: 0.85rem;
+      }
+    }
+    
     @media(max-width: 991px) {
       .custom_navbar .navbar-toggler {
         display: block;
@@ -289,81 +441,6 @@
         flex-basis: 100%;
       }
     }
-    
-    @media(max-width: 767px) {
-      .footer_box {
-        flex-wrap: wrap;
-      }
-      
-      .footer_box .footer_left {
-        width: 100%;
-        margin-bottom: 15px;
-        text-align: center;
-      }
-      
-      .footer_box .footer_logo {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-    
-    @media(max-width: 575px) {
-      .body-wrapper {
-        display: flex;
-        flex-wrap: wrap;
-      }
-      
-      header {
-        order: 0;
-        width: 100%;
-      }
-      
-      .status-delivery {
-        order: 1;
-        width: 100%;
-      }
-      
-      footer {
-        order: 2;
-        width: 100%;
-      }
-      
-      .track {
-        height: auto;
-        flex-wrap: wrap;
-        margin-bottom: 0;
-      }
-      
-      .track .step {
-        width: 100%;
-        text-align: left;
-        margin-top: 0;
-        margin-bottom: 30px;
-        display: flex;
-        align-items: center;
-      }
-      
-      .track .step .icon {
-        text-align: center;
-        margin-right: 10px;
-      }
-      
-      .track .step .text {
-        margin-top: 0;
-      }
-      
-      .track .step:before {
-        left: -13px!important;
-        width: 55px;
-        top: 42px;
-        transform: rotate(90deg);
-      }
-      
-      .shipment_progress {
-        padding-top: 0;
-        margin-top: 0!important;
-      }
-    }
   </style>
 </head>
 
@@ -374,10 +451,8 @@
       <div class="container">
         <nav class="navbar navbar-expand-md custom_navbar">
           <a class="navbar-brand" href="#">
-            <img src="https://img.freepik.com/premium-vector/shipping-courier-delivery-service-company-logo_989520-354.jpg?semt=ais_incoming&w=740&q=80"
+            <img src="https://img.freepik.com/premium-vector/shipping-courier-delivery-service-company-logo_989520-354.jpg?semt=ais_incoming&w=740&q=80">
           </a>
-          
-       
         </nav>
       </div>
     </header><!-- End Header -->
@@ -463,11 +538,12 @@
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="footer_box">
               <div class="footer_left">
-                <span class="m-r-10">© 2025 Order Copyright</span>
+                <span class="m-r-10">© 2025 Order Tracking System</span>
               </div>
               <div class="footer_logo d-flex align-items-center">
                 <p class="m-r-10 mb-0">Powered by: </p>
-                <h2>IndoCourier</h2>
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCAxNTAgNDAiPjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iNDAiIGZpbGw9IiMzNDk4ZGIiLz48dGV4dCB4PSI3NSIgeT0iMjUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UG93ZXJlZCBCeTwvdGV4dD48L3N2Zz4=" alt="Footer Logo">
+              </div>
             </div>
           </div>
         </div>
